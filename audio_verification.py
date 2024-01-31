@@ -4,8 +4,8 @@ from scipy.spatial.distance import cosine
 
 
 class AudioVerification:
-    def __init__(self, audio_file2):
-        self.audio_file1 = "audio/test_audio.mp3"  # Change this to the actual path
+    def __init__(self,audio_file1, audio_file2):
+        self.audio_file1 = audio_file1  # Change this to the actual path
         self.audio_file2 = audio_file2
 
     def verify(self, threshold=0.9):

@@ -22,19 +22,18 @@ class EnvironmentDetection:
             transforms.ToTensor(),
         ])
         input_tensor = transform(frame_pil)
-        input_batch = input_tensor.unsqueeze(0)
+        input_batch = input_tensor.unsqueeze(0).to("cuda")
         # Add a batch dimension
         # Run the object detection model
+        model = self.object_detection_model
+        model.to("cuda")
         with torch.no_grad():
-            prediction = self.object_detection_model(input_batch)
+            prediction = model(input_batch)
 
         # Print the list and number of objects detected
         if 'boxes' in prediction[0]:
             num_objects = len(prediction[0]['boxes'])
-            print(f"Number of Objects Detected: {num_objects}")
-            print("List of Objects:")
-            for i in range(num_objects):
-                box = prediction[0]['boxes'][i]
-                print(f"Object {i + 1}: {box}")
+            print("No. of Objects : ",num_objects)
+
         else:
             print("No objects detected.")

@@ -2,7 +2,7 @@ import cv2
 import dlib
 
 class EyesightTracker:
-    def __init__(self, shape_predictor_path='path/to/shape_predictor_68_face_landmarks.dat'):
+    def __init__(self, shape_predictor_path='shape_predictor_68_face_landmarks.dat'):
         self.detector = dlib.get_frontal_face_detector()
         self.predictor = dlib.shape_predictor(shape_predictor_path)
 
@@ -26,15 +26,18 @@ class EyesightTracker:
             right_eye_center = (sum([x for x, y in right_eye_landmarks]) // 6, sum([y for x, y in right_eye_landmarks]) // 6)
 
             # Draw circles around the eye centers
-            cv2.circle(frame, left_eye_center, 2, (0, 255, 0), -1)
-            cv2.circle(frame, right_eye_center, 2, (0, 255, 0), -1)
+            # cv2.circle(frame, left_eye_center, 2, (0, 255, 0), -1)
+            # cv2.circle(frame, right_eye_center, 2, (0, 255, 0), -1)
 
             # Calculate angle based on eye centers
             angle = self.calculate_angle(left_eye_center, right_eye_center)
-            print(f"Estimated angle: {angle} degrees")
+            if -360 < angle < 0 or angle == -0.0 :
+                return 0
+            else:
+                return 1
 
         # Display the frame with eye detection
-        cv2.imshow("Eyesight Tracker", frame)
+
 
     @staticmethod
     def calculate_angle(left_eye_center, right_eye_center):
@@ -42,5 +45,21 @@ class EyesightTracker:
         dy = right_eye_center[1] - left_eye_center[1]
         return -cv2.fastAtan2(dy, dx)
 
-# Example usage
 
+# eyesight_tracker = EyesightTracker()
+# cap = cv2.VideoCapture(0)
+#
+# while True:
+#     ret, frame = cap.read()
+#
+#
+#     if not ret:
+#         break
+#     cv2.imshow("video",frame)
+#     result = eyesight_tracker.track(frame)
+#     print(result)
+#     if cv2.waitKey(1) & 0xFF == ord('q'):
+#         break
+#
+# cap.release()
+# cv2.destroyAllWindows()
