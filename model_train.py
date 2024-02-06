@@ -9,7 +9,7 @@ from torchvision.models import vgg16
 from PIL import Image
 
 # Constants
-BASE_IMAGE_PATH = 'train_1/image.jpeg'
+BASE_IMAGE_PATH = 'train_1/face.jpg'
 BATCH_SIZE = 32
 NUM_CLASSES = 2
 NUM_AUGMENTATIONS = 10  # Number of augmentations per input image

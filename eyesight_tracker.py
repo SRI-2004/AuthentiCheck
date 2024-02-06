@@ -26,8 +26,8 @@ class EyesightTracker:
             right_eye_center = (sum([x for x, y in right_eye_landmarks]) // 6, sum([y for x, y in right_eye_landmarks]) // 6)
 
             # Draw circles around the eye centers
-            # cv2.circle(frame, left_eye_center, 2, (0, 255, 0), -1)
-            # cv2.circle(frame, right_eye_center, 2, (0, 255, 0), -1)
+            cv2.circle(frame, left_eye_center, 2, (0, 255, 0), -1)
+            cv2.circle(frame, right_eye_center, 2, (0, 255, 0), -1)
 
             # Calculate angle based on eye centers
             angle = self.calculate_angle(left_eye_center, right_eye_center)
@@ -45,21 +45,21 @@ class EyesightTracker:
         dy = right_eye_center[1] - left_eye_center[1]
         return -cv2.fastAtan2(dy, dx)
 
+#
+eyesight_tracker = EyesightTracker()
+cap = cv2.VideoCapture(0)
 
-# eyesight_tracker = EyesightTracker()
-# cap = cv2.VideoCapture(0)
-#
-# while True:
-#     ret, frame = cap.read()
-#
-#
-#     if not ret:
-#         break
-#     cv2.imshow("video",frame)
-#     result = eyesight_tracker.track(frame)
-#     print(result)
-#     if cv2.waitKey(1) & 0xFF == ord('q'):
-#         break
-#
-# cap.release()
-# cv2.destroyAllWindows()
+while True:
+    ret, frame = cap.read()
+
+
+    if not ret:
+        break
+    cv2.imshow("video",frame)
+    result = eyesight_tracker.track(frame)
+    print(result)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
